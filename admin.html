@@ -3,288 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resort Admin Panel - Mirinja Heaven Resort</title>
+    <title>এডমিন প্যানেল - রিসোর্ট বুকিং</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-        }
-        .admin-header {
-            background-color: #004d40;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        .tab-menu {
-            display: flex;
-            justify-content: center;
-            background-color: #00695c;
-        }
-        .tab-btn {
-            background: none;
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .tab-btn.active, .tab-btn:hover {
-            background-color: #004d40;
-            font-weight: bold;
-        }
-        .tab-content {
-            display: none;
-            padding: 15px;
-            max-width: 800px;
-            margin: 20px auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .form-group {
-            margin-bottom: 12px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .submit-btn {
-            background-color: #00695c;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background-color: #004d40;
-        }
-        .item-card {
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .delete-btn {
-            background-color: #d32f2f;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: white;
-        }
-        .bg-pending { background-color: #f39c12; }
-        .bg-confirmed { background-color: #27ae60; }
-    </style>
-</head>
-<body>
-
-    <div class="admin-header">
-        <h1>Mirinja Heaven Resort - Admin Panel</h1>
-    </div>
-
-    <!-- Tab Navigation Menu -->
-    <div class="tab-menu">
-        <button class="tab-btn active" onclick="openTab(event, 'add-room-tab')">রুম যোগ করুন</button>
-        <button class="tab-btn" onclick="openTab(event, 'room-list-tab')">সকল রুম</button>
-        <button class="tab-btn" onclick="openTab(event, 'bookings-tab')">বুকিং লিস্ট</button>
-    </div>
-
-    <!-- Tab 1: Add Room -->
-    <div id="add-room-tab" class="tab-content active">
-        <h2>নতুন কটেজ / রুম যোগ করুন</h2>
-        <form id="add-room-form">
-            <div class="form-group">
-                <label>রুম বা কটেজের নাম:</label>
-                <input type="text" id="room-name" placeholder="যেমন: Premium Deluxe Cottage" required>
-            </div>
-            <div class="form-group">
-                <label>রেগুলার ভাড়া (টাকা / রাত):</label>
-                <input type="number" id="room-price" placeholder="5000" required>
-            </div>
-            <div class="form-group">
-                <label>ডিসকাউন্ট ভ্যালু (%) [ঐচ্ছিক]:</label>
-                <input type="number" id="room-discount" placeholder="যেমন: 10 (না থাকলে খালি রাখুন)">
-            </div>
-            <div class="form-group">
-                <label>ছবি (Image URL):</label>
-                <input type="text" id="room-image" placeholder="https://example.com/image.jpg">
-            </div>
-            <div class="form-group">
-                <label>সুবিধাসমূহ (Facilities):</label>
-                <input type="text" id="room-facilities" placeholder="যেমন: AC, Wi-Fi, Balcony, Breakfast">
-            </div>
-            <div class="form-group">
-                <label>বিবরণ (Description):</label>
-                <textarea id="room-desc" rows="3" placeholder="রুমের বিস্তারিত তথ্য..."></textarea>
-            </div>
-            <button type="submit" class="submit-btn">রুম সেভ করুন</button>
-        </form>
-    </div>
-
-    <!-- Tab 2: Manage Rooms -->
-    <div id="room-list-tab" class="tab-content">
-        <h2>বিদ্যমান রুমের তালিকা</h2>
-        <div id="admin-room-list">
-            <p>রুম লোড হচ্ছে...</p>
-        </div>
-    </div>
-
-    <!-- Tab 3: Booking Requests -->
-    <div id="bookings-tab" class="tab-content">
-        <h2>গ্রাহকদের বুকিং রিকোয়েস্ট</h2>
-        <div id="admin-booking-list">
-            <p>বুকিং রিকোয়েস্ট লোড হচ্ছে...</p>
-        </div>
-    </div>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+</head>
+<body class="admin-body">
 
+    <header class="navbar admin-nav">
+        <div class="logo">
+            <i class="fa-solid fa-user-shield"></i> এডমিন ড্যাশবোর্ড
+        </div>
+        <a href="index.html" class="btn-secondary"><i class="fa-solid fa-globe"></i> মূল ওয়েবসাইট</a>
+    </header>
+
+    <div class="container admin-container">
+        <h2><i class="fa-solid fa-list-check"></i> প্রাপ্ত সমস্ত বুকিং রিকোয়েস্ট</h2>
+        <div class="table-responsive">
+            <table class="booking-table">
+                <thead>
+                    <tr>
+                        <th>তারিখ</th>
+                        <th>গ্রাহকের নাম</th>
+                        <th>ফোন</th>
+                        <th>কটেজ</th>
+                        <th>চেক-ইন / চেক-আউট</th>
+                        <th>গেস্ট</th>
+                        <th>পেমেন্ট</th>
+                        <th>TrxID</th>
+                        <th>মোট টাকা</th>
+                        <th>অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody">
+                    <tr>
+                        <td colspan="10" style="text-align: center;">ডাটা লোড হচ্ছে...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
     <script>
-        // Firebase Config
-        const firebaseConfig = {
-          apiKey: "AIzaSyB9Yh7wffWmRMyBTXc2PRlBfE7n8uvgMBQ",
-          authDomain: "mirinja-heaven-resort.firebaseapp.com",
-          projectId: "mirinja-heaven-resort",
-          storageBucket: "mirinja-heaven-resort.firebasestorage.app",
-          messagingSenderId: "964547613363",
-          appId: "1:964547613363:web:98609abce7629e402596c6"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // Tab Switching Logic
-        function openTab(evt, tabName) {
-            let tabcontent = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadAdminBookings === 'function') {
+                loadAdminBookings();
             }
-            let tablinks = document.getElementsByClassName("tab-btn");
-            for (let i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-
-            if (tabName === 'room-list-tab') fetchAdminRooms();
-            if (tabName === 'bookings-tab') fetchAdminBookings();
-        }
-
-        // Add Room Logic
-        document.getElementById('add-room-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('room-name').value;
-            const price = Number(document.getElementById('room-price').value);
-            const discount = Number(document.getElementById('room-discount').value) || 0;
-            const image = document.getElementById('room-image').value || 'https://via.placeholder.com/300x200';
-            const facilities = document.getElementById('room-facilities').value;
-            const description = document.getElementById('room-desc').value;
-
-            db.collection("rooms").add({
-                name: name,
-                price: price,
-                discount: discount,
-                image: image,
-                facilities: facilities,
-                description: description,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                alert("রুম সফলভাবে যোগ করা হয়েছে!");
-                document.getElementById('add-room-form').reset();
-            })
-            .catch((error) => {
-                alert("এরর: " + error.message);
-            });
         });
-
-        // Fetch & Display Rooms in Admin Panel
-        function fetchAdminRooms() {
-            const listDiv = document.getElementById('admin-room-list');
-            db.collection("rooms").get().then((snapshot) => {
-                if (snapshot.empty) {
-                    listDiv.innerHTML = "<p>কোনো রুম পাওয়া যায়নি।</p>";
-                    return;
-                }
-                listDiv.innerHTML = "";
-                snapshot.forEach((doc) => {
-                    const room = doc.data();
-                    listDiv.innerHTML += `
-                        <div class="item-card">
-                            <div>
-                                <strong>${room.name}</strong><br>
-                                <small>ভাড়া: ৳${room.price} ${room.discount ? '(ছাড়: ' + room.discount + '%)' : ''}</small>
-                            </div>
-                            <button class="delete-btn" onclick="deleteRoom('${doc.id}')">মুছে ফেলুন</button>
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        // Delete Room Function
-        function deleteRoom(docId) {
-            if (confirm("আপনি কি নিশ্চিতভাবে এই রুমটি মুছে ফেলতে চান?")) {
-                db.collection("rooms").doc(docId).delete().then(() => {
-                    alert("রুম মুছে ফেলা হয়েছে!");
-                    fetchAdminRooms();
-                });
-            }
-        }
-
-        // Fetch Bookings
-        function fetchAdminBookings() {
-            const bookingDiv = document.getElementById('admin-booking-list');
-            db.collection("bookings").get().then((snapshot) => {
-                if (snapshot.empty) {
-                    bookingDiv.innerHTML = "<p>কোনো বুকিং রিকোয়েস্ট নেই।</p>";
-                    return;
-                }
-                bookingDiv.innerHTML = "";
-                snapshot.forEach((doc) => {
-                    const b = doc.data();
-                    bookingDiv.innerHTML += `
-                        <div class="item-card">
-                            <div>
-                                <strong>${b.customerName}</strong> (${b.phone})<br>
-                                <small>রুম/কটেজ: ${b.roomName} | তারিখ: ${b.checkIn} হতে ${b.checkOut}</small>
-                            </div>
-                            <span class="badge bg-pending">${b.status || 'Pending'}</span>
-                        </div>
-                    `;
-                });
-            });
-        }
     </script>
 </body>
 </html>
