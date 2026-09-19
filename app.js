@@ -1,3 +1,7 @@
+import React from 'react';
+// Firebase core SDK
+import { initializeApp } from "firebase/app";
+
 // Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB9Yh7wffWmRMyBTXc2PRlBfE7n8uvgMBQ",
@@ -8,38 +12,18 @@ const firebaseConfig = {
   appId: "1:964547613363:web:98609abce7629e402596c6"
 };
 
-// Initialize Firebase & Firestore
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-// Firestore থেকে রুম লোড করার ফাংশন
-const roomsContainer = document.getElementById('rooms-container');
-
-function loadRooms() {
-    db.collection("rooms").get().then((querySnapshot) => {
-        if (querySnapshot.empty) {
-            roomsContainer.innerHTML = "<p style='text-align:center;'>এখনো কোনো রুম যুক্ত করা হয়নি।</p>";
-            return;
-        }
-
-        roomsContainer.innerHTML = "";
-        querySnapshot.forEach((doc) => {
-            const room = doc.data();
-            roomsContainer.innerHTML += `
-                <div class="room-card">
-                    <h3>${room.name}</h3>
-                    <p class="price">৳ ${room.price} / রাত</p>
-                    <p>${room.description}</p>
-                    <br>
-                    <button class="btn-book" onclick="alert('বুকিং করার জন্য ধন্যবাদ! শীঘ্রই যোগাযোগ করা হবে।')">বুকিং করুন</button>
-                </div>
-            `;
-        });
-    }).catch((error) => {
-        console.error("Error getting rooms: ", error);
-        roomsContainer.innerHTML = "<p style='color:red;'>ডাটা লোড করতে সমস্যা হয়েছে! Firebase Security Rules চেক করুন।</p>";
-    });
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>Mirinja Heaven Resort</h1>
+        <p>Firebase সফলভাবে কানেক্ট করা হয়েছে!</p>
+      </header>
+    </div>
+  );
 }
 
-// পেজ লোড হলে রুম দেখাবে
-loadRooms();
+export default App;
