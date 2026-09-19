@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        input, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0 1rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>এডমিন প্যানেল</h1>
+    </header>
+
+    <main class="container">
+        <h2>নতুন রুম যোগ করুন</h2>
+        <form id="add-room-form">
+            <label>রুমের নাম:</label>
+            <input type="text" id="room-name" required placeholder="যেমন: Deluxe Cottage">
+
+            <label>ভাড়া (টাকা):</label>
+            <input type="number" id="room-price" required placeholder="5000">
+
+            <label>বিবরণ:</label>
+            <textarea id="room-desc" rows="4" required placeholder="AC, Wi-Fi, Balcony..."></textarea>
+
+            <button type="submit" class="btn-book">রুম সেভ করুন</button>
+        </form>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Config (এখানেও আপনার API Key বসাবেন)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // ফর্ম সাবমিট করে Firestore-এ ডাটা সেভ করা
+        document.getElementById('add-room-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('room-name').value;
+            const price = document.getElementById('room-price').value;
+            const description = document.getElementById('room-desc').value;
+
+            db.collection("rooms").add({
+                name: name,
+                price: price,
+                description: description
+            })
+            .then(() => {
+                alert("রুম সফলভাবে যোগ করা হয়েছে!");
+                document.getElementById('add-room-form').reset();
+            })
+            .catch((error) => {
+                alert("ভুল হয়েছে: " + error.message);
+            });
+        });
+    </script>
+</body>
+</html>
