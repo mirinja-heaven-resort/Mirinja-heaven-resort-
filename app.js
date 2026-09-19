@@ -1,22 +1,27 @@
-// আপনার Firebase Console থেকে পাওয়া কনফিগারেশনটি নিচে বসান
+// Firebase Configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyB9Yh7wffWmRMyBTXc2PRlBfE7n8uvgMBQ",
+  authDomain: "mirinja-heaven-resort.firebaseapp.com",
+  projectId: "mirinja-heaven-resort",
+  storageBucket: "mirinja-heaven-resort.firebasestorage.app",
+  messagingSenderId: "964547613363",
+  appId: "1:964547613363:web:98609abce7629e402596c6"
 };
 
-// Initialize Firebase
+// Initialize Firebase & Firestore
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Firestore থেকে রুমের তালিকা লোড করা
+// Firestore থেকে রুম লোড করার ফাংশন
 const roomsContainer = document.getElementById('rooms-container');
 
 function loadRooms() {
     db.collection("rooms").get().then((querySnapshot) => {
+        if (querySnapshot.empty) {
+            roomsContainer.innerHTML = "<p style='text-align:center;'>এখনো কোনো রুম যুক্ত করা হয়নি।</p>";
+            return;
+        }
+
         roomsContainer.innerHTML = "";
         querySnapshot.forEach((doc) => {
             const room = doc.data();
@@ -26,15 +31,15 @@ function loadRooms() {
                     <p class="price">৳ ${room.price} / রাত</p>
                     <p>${room.description}</p>
                     <br>
-                    <button class="btn-book">বুকিং করুন</button>
+                    <button class="btn-book" onclick="alert('বুকিং করার জন্য ধন্যবাদ! শীঘ্রই যোগাযোগ করা হবে।')">বুকিং করুন</button>
                 </div>
             `;
         });
     }).catch((error) => {
         console.error("Error getting rooms: ", error);
-        roomsContainer.innerHTML = "<p>রুমের তথ্য লোড করতে সমস্যা হয়েছে।</p>";
+        roomsContainer.innerHTML = "<p style='color:red;'>ডাটা লোড করতে সমস্যা হয়েছে! Firebase Security Rules চেক করুন।</p>";
     });
 }
 
-// পেজ লোড হলে ফাংশনটি চলবে
+// পেজ লোড হলে রুম দেখাবে
 loadRooms();
