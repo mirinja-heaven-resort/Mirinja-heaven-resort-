@@ -3,26 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resort Booking</title>
+    <title>Sajek Valley Resort - Booking</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-    <header>
-        <h1>রিজোর্ট বুকিং সিস্টেম</h1>
+    <!-- Header Section -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-mountain-sun"></i> সাজেক ভ্যালি রিসোর্ট
+        </div>
+        <nav>
+            <a href="#hero">হোম</a>
+            <a href="#cottages">কটেজ সমূহ</a>
+            <a href="#booking">বুকিং দিন</a>
+            <a href="admin.html" class="admin-link"><i class="fa-solid fa-user-gear"></i> এডমিন প্যানেল</a>
+        </nav>
     </header>
 
-    <main class="container">
-        <h2>আমাদের রুমসমূহ</h2>
-        <div id="rooms-container" class="room-grid">
-            <p>রুমের তথ্য লোড হচ্ছে...</p>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1>মেঘের দেশে আপনার স্বপ্নের কটেজ বুক করুন</h1>
+            <p>সহজ, দ্রুত এবং নিরাপদ অনলাইন রিসোর্ট বুকিং সিস্টেম</p>
+            <a href="#booking" class="btn">এখনই বুক করুন</a>
         </div>
-    </main>
+    </section>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    
+    <!-- Cottages Section -->
+    <section id="cottages" class="container">
+        <h2 class="section-title">আমাদের বিশেষ কটেজসমূহ</h2>
+        <div class="cottage-grid">
+            <div class="cottage-card">
+                <img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=600&q=80" alt="Bachelor Point">
+                <div class="cottage-info">
+                    <h3>ব্যাচেলর পয়েন্ট কটেজ</h3>
+                    <p class="price">৳ ৩,৫০০ / রাত</p>
+                    <p class="desc">মেঘের সুন্দর ভিউ সহ ৪ জন থাকার উপযুক্ত ফ্যামিলি কটেজ।</p>
+                    <button class="select-btn" onclick="selectCottage('ব্যাচেলর পয়েন্ট কটেজ', 3500)">বুকিং সিলেক্ট করুন</button>
+                </div>
+            </div>
+
+            <div class="cottage-card">
+                <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=600&q=80" alt="Pod House">
+                <div class="cottage-info">
+                    <h3>পড হাউস (Pod House)</h3>
+                    <p class="price">৳ ৪,৫০০ / রাত</p>
+                    <p class="desc">লাক্সারি মডার্ন পড হাউস, কাপল ও স্মল ফ্যামিলির জন্য বেস্ট।</p>
+                    <button class="select-btn" onclick="selectCottage('পড হাউস (Pod House)', 4500)">বুকিং সিলেক্ট করুন</button>
+                </div>
+            </div>
+
+            <div class="cottage-card">
+                <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=600&q=80" alt="Zum Ghor">
+                <div class="cottage-info">
+                    <h3>জুম ঘর কটেজ</h3>
+                    <p class="price">৳ ২,৮০০ / রাত</p>
+                    <p class="desc">পাহাড়ি ট্রেডিশনাল জুম ঘর থিমের কটেজ, একদম ন্যাচারাল ফিল।</p>
+                    <button class="select-btn" onclick="selectCottage('জুম ঘর কটেজ', 2800)">বুকিং সিলেক্ট করুন</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section id="booking" class="container">
+        <div class="booking-wrapper">
+            <h2 class="section-title">অনলাইন বুকিং ফর্ম</h2>
+            
+            <form id="bookingForm" onsubmit="handleBooking(event)">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-house"></i> কটেজ নির্বাচন করুন:</label>
+                    <select id="cottageSelect" required onchange="updateTotal()">
+                        <option value="">-- কটেজ বেছে নিন --</option>
+                        <option value="ব্যাচেলর পয়েন্ট কটেজ" data-price="3500">ব্যাচেলর পয়েন্ট কটেজ - ৳৩,৫০০/রাত</option>
+                        <option value="পড হাউস (Pod House)" data-price="4500">পড হাউস - ৳৪,৫০০/রাত</option>
+                        <option value="জুম ঘর কটেজ" data-price="2800">জুম ঘর কটেজ - ৳২,৮০০/রাত</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-calendar-day"></i> চেক-ইন তারিখ:</label>
+                        <input type="date" id="checkIn" required onchange="updateTotal()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-calendar-check"></i> চেক-আউট তারিখ:</label>
+                        <input type="date" id="checkOut" required onchange="updateTotal()">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>পুরুষ অতিথি:</label>
+                        <input type="number" id="maleGuests" min="0" value="1" onchange="updateTotal()">
+                    </div>
+                    <div class="form-group">
+                        <label>মহিলা অতিথি:</label>
+                        <input type="number" id="femaleGuests" min="0" value="0" onchange="updateTotal()">
+                    </div>
+                    <div class="form-group">
+                        <label>শিশু (যদি থাকে):</label>
+                        <input type="number" id="childGuests" min="0" value="0" onchange="updateTotal()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> আপনার পূর্ণ নাম:</label>
+                    <input type="text" id="fullName" placeholder="যেমন: আব্দুর রহমান" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-phone"></i> মোবাইল নম্বর:</label>
+                    <input type="tel" id="phone" placeholder="017xxxxxxxx" required>
+                </div>
+
+                <div class="payment-box">
+                    <h3><i class="fa-solid fa-wallet"></i> পেমেন্ট ইন্সট্রাকশন (bKash / Nagad / Rocket)</h3>
+                    <p>আমাদের মার্চেন্ট/পার্সোনাল নম্বরে পেমেন্ট সম্পূর্ণ করে Transaction ID লিখুন:</p>
+                    <div class="numbers">
+                        <p><strong>bKash (Send Money):</strong> 01711223344</p>
+                        <p><strong>Nagad (Send Money):</strong> 01811223344</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>পেমেন্ট মেথড:</label>
+                        <select id="paymentMethod" required>
+                            <option value="bKash">bKash (বিকাশ)</option>
+                            <option value="Nagad">Nagad (নগদ)</option>
+                            <option value="Rocket">Rocket (রকেট)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Transaction ID (TrxID):</label>
+                        <input type="text" id="trxId" placeholder="যেমন: 9J8A7XX12" required>
+                    </div>
+                </div>
+
+                <div class="total-summary">
+                    <span>মোট টাকা:</span>
+                    <strong id="totalPrice">৳ 0</strong>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fa-solid fa-check-circle"></i> বুকিং সম্পন্ন করুন
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 সাজেক ভ্যালি রিসোর্ট। সর্বস্বত্ব সংরক্ষিত।</p>
+    </footer>
+
     <script src="app.js"></script>
 </body>
 </html>
